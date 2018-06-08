@@ -1,0 +1,12 @@
+@import '../../../variables';
+
+.calculator {
+    padding: 1.5rem;
+    height: 50rem;
+    width: 60rem;
+    border-radius: .4rem;
+    box-shadow: .1rem .1rem 4rem $primary-color-dark;
+    background-color: $primary-color;
+    display: flex;
+    flex-wrap: wrap;
+}

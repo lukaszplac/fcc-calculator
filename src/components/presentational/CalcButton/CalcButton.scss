@@ -1,0 +1,14 @@
+@import '../../../variables';
+
+.button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    color: $primary-text-color;
+    text-align: center;
+    background-color: $primary-color-light;
+    border: .5rem solid $primary-color-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: .2rem .2rem 2rem .4rem $primary-text-color;
+}

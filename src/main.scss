@@ -1,0 +1,17 @@
+@import 'variables';
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    /* will be inherited from body */
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    background-color: $color-surface;
+    box-sizing: border-box;
+}
