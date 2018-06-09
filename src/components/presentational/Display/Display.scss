@@ -2,25 +2,28 @@
 
 .display {
     flex: 0 0 100%;
+    display: flex;
     font-family: 'Orbitron', sans-serif;
     flex-direction: column;
+    justify-content: space-around;
     height: 20%;
     letter-spacing: .5rem;
     background-color: $primary-text-color;
-
     &Memory, &Current {
-        flex: 0 0 40%;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     } 
 
     &Memory {
-        font-size: 2.5rem;
+        flex: 0 0 40%;
+        font-size: 1.6rem;
         color: $accent-color;
     }
 
     &Current {
-        font-size: 4.5rem;
+        flex: 0 0 60%;
+        font-size: 4rem;
         color: $primary-color-text;
     }
 }

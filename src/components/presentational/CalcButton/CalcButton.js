@@ -6,7 +6,10 @@ const button = (props) => {
     
     return(
         <AuxWrap>
-            <div className={styles.button} style={props.styleFlex} id={props.id}>
+            <div className={styles.button} 
+                 style={props.styleFlex} 
+                 id={props.id}
+                 onClick={() => props.clicked(props.value)}>
                 <span>{props.value}</span>
             </div>
         </AuxWrap>
