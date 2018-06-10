@@ -8,53 +8,99 @@ class Calculator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: "0",
+            current: "",
             memory: ""
         }
     };
 
     clear() {
         this.setState({
-            current: "0",
+            current: "",
             memory: ""
         })
     }
     
-    continueOperation(value) {
-        //not doing some operations when current is 0 and value is 0 or / or *;
+    validation(value) {
         let currentToReplace = this.state.current;
-        if (currentToReplace === "0") {
-            if (value === 0 || value === "/" || value === "*") return;
-            else {
-                currentToReplace = value.toString();
-            }
-        } else { //otherwise if current is not 0 and it is valid operation like + - or .
-            if (isNaN(value) && value !== ".") currentToReplace = value//if value is not a number or dot then replace current with operation sign
-            else { //otherwise if value is a number and current has only numbers or dot then atttach value to current
-                if (this.state.current.match(/\d*\.{0,1}\d+/)) currentToReplace += value.toString();
-                else currentToReplace = value.toString(); //otherwise replace current with valid sign + or - or .
-            }
+        let memoryToReplace = this.state.memory;
+        let signAtTheEnd = /[\*\/\-\+]$/g;
+
+        let valueIsANumber = (!isNaN(value));
+        let valueIsDot = (value === ".");
+        let currentIsASign = currentToReplace.match(signAtTheEnd);
+        let currentIsEmpty = currentToReplace === "";
+
+        //if current is 0 and value is 0 this is not allowed then return
+        if (currentIsEmpty && value === 0) return;
+
+        //if curren is 0 and sign other than + or - was cliced then also return
+        if (currentIsEmpty && (value === "*" || value === "/")) return;
+
+        //if current ends with dot and value is not a number this is not allowed then return
+        if (currentToReplace.match(/\d*\.$/) && (!valueIsANumber)) return;
+
+        //if current has already a dot and value is a dot this is also not allowed so return
+        if (currentToReplace.match(/\d*\.{1}\d*/) && (valueIsDot)) return;
+
+        //clear current if it is a sign but not dot
+        if (currentIsASign) {
+            currentToReplace = "";
         }
 
+        if (valueIsANumber || valueIsDot) {
+            if ((valueIsDot && currentIsEmpty) || (valueIsDot && currentIsASign)) {
+                currentToReplace = "0" + value; //if current is ampty and value is dot OR value is dot and current is sign, add 0 at the beginning
+            } else {
+                currentToReplace += value; //add string to current
+            }
+        } else {
+            currentToReplace = value; //replace string by sign
+        }
+
+        if (currentToReplace.match(signAtTheEnd)) {
+            if (!memoryToReplace.match(signAtTheEnd)) {
+                memoryToReplace += currentToReplace;
+            } else memoryToReplace = memoryToReplace.replace(signAtTheEnd, value);
+        } else {
+            if ((valueIsDot && currentIsEmpty) || (valueIsDot && memoryToReplace.match(signAtTheEnd))) memoryToReplace += "0" + value;
+            else memoryToReplace += value;
+        }
+        
         this.setState(prevState => ({
             current: currentToReplace,
-            memory: prevState.memory + value
+            memory: memoryToReplace
         }));
     }
 
     evaluate() {
+        let out = 0;
+        let toEvaluate = this.state.memory;
+        if (this.state.memory === "") return;
+        else if (toEvaluate.match(/.*([\+\-\*\/])+$/)) {
+            let tempArray = toEvaluate.split('');
+            tempArray.pop();
+            toEvaluate = tempArray.join('');
+        }
+
+        out = eval(toEvaluate);
+        if (!Number.isInteger(out)) {
+            out = out.toFixed(4);
+        }
+        this.setState({
+            current: out.toString(),
+            memory: out.toString()
+        });
 
     }
 
     onClickHandler(value) {
-        console.log(value);
         switch(value) {
             case "AC": 
                 this.clear(); break; //AC
             case "=":
                 this.evaluate(); break;
             default:
-                this.continueOperation(value);
+                this.validation(value);
         }
     }
 
