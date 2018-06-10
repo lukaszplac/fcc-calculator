@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
-    "build": "webpack --mode=production"
+    "build": "node-sass src/_sidebar.scss dist/sidebar.css & webpack --mode=production"
   },
   "keywords": [],
   "author": "",
