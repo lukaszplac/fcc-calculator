@@ -28,11 +28,15 @@ class Calculator extends Component {
         let valueIsANumber = (!isNaN(value));
         let valueIsDot = (value === ".");
         let currentIsASign = currentToReplace.match(signAtTheEnd);
+        let currentIsZero = currentToReplace === "0";
         let currentIsEmpty = currentToReplace === "";
 
-        //if current is empty or 0 and value is 0 this is not allowed then return
-        if ((currentIsEmpty || currentToReplace === '0') && value === 0) return;
+        //if current is empty or 0 and value is 0 this is not allowed(because there is already 0 on the screen) then return
+        if ((currentIsEmpty || currentIsZero) && value === 0) return;
 
+        //also when current is 0 and value is a number this is not allowed
+        if (currentIsZero && valueIsANumber) return;
+        
         //if curren is 0 and sign other than + or - was cliced then also return
         if (currentIsEmpty && (value === "*" || value === "/")) return;
 
