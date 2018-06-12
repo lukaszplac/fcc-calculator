@@ -30,8 +30,8 @@ class Calculator extends Component {
         let currentIsASign = currentToReplace.match(signAtTheEnd);
         let currentIsEmpty = currentToReplace === "";
 
-        //if current is 0 and value is 0 this is not allowed then return
-        if (currentIsEmpty && value === 0) return;
+        //if current is empty or 0 and value is 0 this is not allowed then return
+        if ((currentIsEmpty || currentToReplace === '0') && value === 0) return;
 
         //if curren is 0 and sign other than + or - was cliced then also return
         if (currentIsEmpty && (value === "*" || value === "/")) return;
